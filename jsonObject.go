@@ -1,6 +1,7 @@
 package jsonx
 
 import (
+	"encoding/json"
 	"errors"
 	"github.com/imdario/mergo"
 	"log"
@@ -198,4 +199,17 @@ func (j *JSONObject) ToJsonString() string {
 
 func (j *JSONObject) ToJsonBytes() []byte {
 	return ToJSONBytes(j.m)
+}
+
+func (j JSONObject) MarshalJSON() ([]byte, error) {
+	return json.Marshal(j.m)
+}
+
+func (j *JSONObject) UnmarshalJSON(b []byte) error {
+	err := json.Unmarshal(b, &j.m)
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
+	return err
 }
