@@ -54,7 +54,7 @@ func (j *JSONObject) GetJSONObject(key string) *JSONObject {
 	}
 }
 
-func (j *JSONObject) getJSONArray(key string) *JSONArray {
+func (j *JSONObject) GetJSONArray(key string) *JSONArray {
 	v := j.Get(key)
 	switch v.(type) {
 	case *JSONArray:
