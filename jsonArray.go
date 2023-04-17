@@ -1,7 +1,9 @@
 package jsonx
 
 import (
+	"encoding/json"
 	"errors"
+	"log"
 	"strconv"
 	"time"
 )
@@ -230,4 +232,16 @@ func (j *JSONArray) GetString(index int) string {
 func (j *JSONArray) GetUnixMilliDate(index int) time.Time {
 	milli := j.GetInt64Value(index)
 	return time.Unix(milli/1000, (milli%1000)*(1000*1000))
+}
+func (j JSONArray) MarshalJSON() ([]byte, error) {
+	return json.Marshal(j.list)
+}
+
+func (j *JSONArray) UnmarshalJSON(b []byte) error {
+	err := json.Unmarshal(b, &j.list)
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
+	return err
 }

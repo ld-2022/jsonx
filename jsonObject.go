@@ -201,6 +201,13 @@ func (j *JSONObject) ToJsonBytes() []byte {
 	return ToJSONBytes(j.m)
 }
 
+func (j *JSONObject) ForEach(call ForCall) {
+	for k, v := range j.m {
+		if !call(k, v) {
+			break
+		}
+	}
+}
 func (j JSONObject) MarshalJSON() ([]byte, error) {
 	return json.Marshal(j.m)
 }
