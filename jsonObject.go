@@ -3,6 +3,7 @@ package jsonx
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/imdario/mergo"
 	"log"
 	"strconv"
@@ -148,13 +149,24 @@ func (j *JSONObject) GetFloat64Value(key string) float64 {
 
 func (j *JSONObject) GetString(key string) string {
 	v := j.Get(key)
-	switch v.(type) {
+	switch v := v.(type) {
 	case float64:
-		return strconv.FormatInt(int64(v.(float64)), 10)
+		return strconv.FormatFloat(v, 'f', 6, 64)
+	case int:
+		return strconv.Itoa(v)
+	case bool:
+		return strconv.FormatBool(v)
 	case string:
-		return v.(string)
+		return v
+	case nil:
+		return ""
+	case []byte: // 这里既可以处理 []byte 也可以处理 []uint8
+		return string(v)
+	case map[string]interface{}:
+		return "<object>"
+	default:
+		return fmt.Sprintf("%v", v)
 	}
-	return ""
 }
 func (j *JSONObject) GetUnixMilliDate(key string) time.Time {
 	milli := j.GetInt64Value(key)
