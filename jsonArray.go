@@ -117,7 +117,7 @@ func (j *JSONArray) Get(index int) interface{} {
 	return j.list[index]
 }
 
-func (j *JSONArray) getJSONArray(index int) *JSONArray {
+func (j *JSONArray) GetJSONArray(index int) *JSONArray {
 	v := j.Get(index)
 	switch v.(type) {
 	case *JSONArray:
@@ -126,7 +126,7 @@ func (j *JSONArray) getJSONArray(index int) *JSONArray {
 		return nil
 	}
 }
-func (j *JSONArray) getJSONObject(index int) *JSONObject {
+func (j *JSONArray) GetJSONObject(index int) *JSONObject {
 	v := j.Get(index)
 	switch v.(type) {
 	case *JSONObject:
