@@ -131,6 +131,8 @@ func (j *JSONArray) GetJSONObject(index int) *JSONObject {
 	switch v.(type) {
 	case *JSONObject:
 		return v.(*JSONObject)
+	case map[string]interface{}:
+		return NewJSONObjectMap(v.(map[string]interface{}))
 	default:
 		return nil
 	}

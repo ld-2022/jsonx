@@ -60,6 +60,8 @@ func (j *JSONObject) GetJSONArray(key string) *JSONArray {
 	switch v.(type) {
 	case *JSONArray:
 		return v.(*JSONArray)
+	case []interface{}:
+		return &JSONArray{list: v.([]interface{})}
 	default:
 		return nil
 	}
