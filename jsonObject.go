@@ -133,6 +133,13 @@ func (j *JSONObject) GetInt64Value(key string) int64 {
 		return int64(v.(float64))
 	case int64:
 		return v.(int64)
+	default:
+		s_v := j.GetString(key)
+		atoi, err := strconv.Atoi(s_v)
+		if err != nil {
+			return 0
+		}
+		return int64(atoi)
 	}
 	return 0
 }
