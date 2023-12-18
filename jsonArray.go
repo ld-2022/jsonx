@@ -12,6 +12,9 @@ type JSONArray struct {
 	list []interface{}
 }
 
+func NewJSONArrayFromList(list []interface{}) *JSONArray {
+	return &JSONArray{list: list}
+}
 func NewJSONArray() *JSONArray {
 	return &JSONArray{list: make([]interface{}, 0, 16)}
 }
