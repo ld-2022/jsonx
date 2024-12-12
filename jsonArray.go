@@ -3,7 +3,6 @@ package jsonx
 import (
 	"encoding/json"
 	"errors"
-	"log"
 	"strconv"
 	"time"
 )
@@ -224,6 +223,14 @@ func (j *JSONArray) GetFloat64Value(index int) float64 {
 	return 0
 }
 
+func (j *JSONArray) ForEach(call ForCallArray) {
+	size := j.Size()
+	for i := 0; i < size; i++ {
+		if !call(i, j.GetJSONObject(i)) {
+			break
+		}
+	}
+}
 func (j *JSONArray) GetString(index int) string {
 	v := j.Get(index)
 	switch v.(type) {
@@ -243,10 +250,8 @@ func (j JSONArray) MarshalJSON() ([]byte, error) {
 }
 
 func (j *JSONArray) UnmarshalJSON(b []byte) error {
-	err := json.Unmarshal(b, &j.list)
-	if err != nil {
-		log.Println(err)
-		return nil
+	if !IsJSONArray(b) {
+		return errors.New("not a json array")
 	}
-	return err
+	return json.Unmarshal(b, &j.list)
 }

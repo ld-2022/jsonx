@@ -234,10 +234,8 @@ func (j JSONObject) MarshalJSON() ([]byte, error) {
 }
 
 func (j *JSONObject) UnmarshalJSON(b []byte) error {
-	err := json.Unmarshal(b, &j.m)
-	if err != nil {
-		log.Println(err)
-		return nil
+	if !IsJSONObject(b) {
+		return errors.New("not a json object")
 	}
-	return err
+	return json.Unmarshal(b, &j.m)
 }

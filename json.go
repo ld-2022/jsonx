@@ -8,20 +8,24 @@ import (
 )
 
 func ParseObject(bytes []byte) *JSONObject {
+	// 判断是否是json字符串
+	if !IsJSONObject(bytes) {
+		return nil
+	}
 	j := NewJSONObject()
-	err := json.Unmarshal(bytes, &j.m)
-	if err != nil {
-		log.Println(err)
+	if err := json.Unmarshal(bytes, &j.m); err != nil {
 		return nil
 	}
 	return j
 }
 
 func ParseArray(bytes []byte) *JSONArray {
+	// 判断是否是json字符串
+	if !IsJSONArray(bytes) {
+		return nil
+	}
 	j := NewJSONArray()
-	err := json.Unmarshal(bytes, &j.list)
-	if err != nil {
-		log.Println(err)
+	if err := json.Unmarshal(bytes, &j.list); err != nil {
 		return nil
 	}
 	return j
@@ -89,4 +93,20 @@ func parseRawString(s string) (string, string, error) {
 			return ss[:len(ss)-len(s)+n], s[n+1:], nil
 		}
 	}
+}
+
+// IsJSONObject 判断是否是json对象
+func IsJSONObject(bytes []byte) bool {
+	if len(bytes) == 0 {
+		return false
+	}
+	return bytes[0] == '{' && bytes[len(bytes)-1] == '}'
+}
+
+// IsJSONArray 判断是否是json数组
+func IsJSONArray(bytes []byte) bool {
+	if len(bytes) == 0 {
+		return false
+	}
+	return bytes[0] == '[' && bytes[len(bytes)-1] == ']'
 }
