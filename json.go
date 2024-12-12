@@ -100,6 +100,8 @@ func IsJSONObject(bytes []byte) bool {
 	if len(bytes) == 0 {
 		return false
 	}
+	// 如果结尾是换行或者空格，去掉
+	bytes = []byte(strings.TrimSpace(string(bytes)))
 	return bytes[0] == '{' && bytes[len(bytes)-1] == '}'
 }
 
@@ -108,5 +110,7 @@ func IsJSONArray(bytes []byte) bool {
 	if len(bytes) == 0 {
 		return false
 	}
+	// 如果结尾是换行或者空格，去掉
+	bytes = []byte(strings.TrimSpace(string(bytes)))
 	return bytes[0] == '[' && bytes[len(bytes)-1] == ']'
 }
